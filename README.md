@@ -12,11 +12,9 @@ This project provides a complete e-commerce platform with features including use
 ## Home Page Overview:
 ![Home Page](https://github.com/TomGuter/E-Commerce-Platform-Development/blob/final-v1/public/home%20page.jpg?raw=true)
 
+
 ## Admin Dashboard Statistics Exapmple:
 ![Admin Stats](https://github.com/TomGuter/E-Commerce-Platform-Development/blob/final-v1/public/graphs.jpg?raw=true)
-
-## Admin Message Notifications:
-![Admin Messages](https://github.com/TomGuter/E-Commerce-Platform-Development/blob/final-v1/public/admin%20stays%20updated.jpg?raw=true)
 
 
 ## Getting Started
