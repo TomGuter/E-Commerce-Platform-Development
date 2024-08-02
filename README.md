@@ -7,7 +7,7 @@ This project provides a complete e-commerce platform with features including use
 3. **Shopping Cart Functionality:** Users can add products to their shopping cart, modify quantities, and proceed to checkout.
 4. **Order Management:** Admins can manage and view orders placed by users.
 5. **Admin Panel:** An interface for admins to manage products, including adding, updating, and removing items, as well as generating statistics to analyze store performance.
-
+6. **API Integration:** Incorporated various APIs, such as Facebook, to enhance platform functionality and improve the user experience.
 
 ## Home Page Overview:
 ![Home Page](https://github.com/TomGuter/E-Commerce-Platform-Development/blob/final-v1/public/home%20page.jpg?raw=true)
