@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="/" style="margin-left: 20px;"></a> <img
+        src="https://scontent.ftlv20-1.fna.fbcdn.net/v/t39.30808-6/367388343_122101045670007447_4868661900419300103_n.png?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=jBs8S4Q_6WwQ7kNvgFtkcAy&_nc_ht=scontent.ftlv20-1.fna&oh=00_AYC9DXHZ3tWoe9TUwch02SUWyBkVAUZrrbPdbeJfHbAx5g&oe=66B20C56"
+        class="nav-logo" alt="Logo" width="150px" height="50px"><a class="navbar-brand" href="/"
+        style="margin-left: 20px;">
+
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <% links.forEach(function(link) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%= link.url %>">
+                        <%= link.name %>
+                    </a>
+                </li>
+                <% }); %>
+        </ul>
+    </div>
+
+</nav>
+
+<style>
+    .fixed-buttons {
+        position: fixed;
+        top: 15px;
+        right: 11px;
+        z-index: 9999;
+    }
+
+
+    .cart-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 7px;
+    }
+
+    .total-sum-container {
+        position: fixed;
+        top: 10px;
+        left: 42%;
+        opacity: 0.8;
+        max-width: 400px;
+        z-index: 9999;
+    }
+</style>
+
+<div class="fixed-buttons">
+    <div class="container">
+        <div class="cart-container">
+            <button class="btn btn-primary reset-cart">Reset the cart</button>
+            <a class="btn btn-primary" href="/checkout" role="button">Checkout</a>
+        </div>
+    </div>
+</div>
+
+
+<br><br>

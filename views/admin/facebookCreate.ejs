@@ -1,0 +1,19 @@
+<head>
+    <%- include('../common/head') %>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+<h1 class="display-1">Create new post</h1>
+<form class="col-5" action="/admin/facebook/create" method="POST">
+    <label class="form-label" for="message">Post content:</label>
+    <input class="form-control" type="text" name="message">
+    <input class="btn btn-primary mt-2" type="submit">
+</form>
+
+<footer>
+    <%- include('../common/footer') %>
+</footer>

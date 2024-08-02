@@ -1,0 +1,434 @@
+<div class="container">
+    <div class="total-sum-container">
+        <h5>Total Sum Per Product: $<span id="total-sum">0</span></h5>
+    </div>
+</div>
+
+<script>
+    const addToCartButton = document.querySelectorAll('.add-to-cart');
+    const removeItemButton = document.querySelectorAll('.remove-item');
+    const resetCart = document.querySelectorAll('.reset-cart');
+    const removeItemButtonCheckout = document.querySelectorAll('.remove-checkout');
+    const resetCartButton = document.querySelector('.reset-cart');
+    const increaseQuantityButton = document.querySelectorAll('.increase-quantity');
+    const decreaseQuantityButton = document.querySelectorAll('.decrease-quantity');
+    const totalSumElement = document.getElementById('total-sum');
+
+
+    const paymentElement = document.getElementById('payment');
+
+
+
+    let totalSum = 0;
+    let tempTotalSum = parseFloat(0).toFixed(2);
+
+    var PostName;
+
+    function refresh() {
+        window.location.reload();
+    }
+
+    function updateTotalSum(totalSum) {
+        totalSumElement.textContent = totalSum;
+    }
+
+    updateTotalSum(totalSum);
+
+
+
+    function increaseQ(quantityElement) {
+        let quantity = parseInt(quantityElement.textContent);
+        quantity++;
+        quantityElement.textContent = quantity;
+        PostName = '/quantity';
+        routToPostNoForm(PostName);
+        // localStorage.setItem('quantity', quantity.toString());;
+    }
+
+    function decreaseQ(quantityElement) {
+        let quantity = parseInt(quantityElement.textContent);
+        if (quantity > 0) {
+            quantity--;
+            quantityElement.textContent = quantity;
+            PostName = '/quantity';
+            routToPostNoForm(PostName);
+            //  localStorage.setItem('quantity', quantity.toString());
+        }
+    }
+
+
+    function routToPostNoForm(PostName) {
+        const req = new XMLHttpRequest();
+        req.open('POST', PostName);
+        req.setRequestHeader('Content-Type', 'application/json');
+
+        req.onload = function () {
+            if (req.status === 200) {
+                window.location.reload();
+            }
+        };
+
+        req.onerror = function () {
+
+        };
+
+        req.send();
+    }
+
+
+
+
+
+
+    function routToPostWithForm(formData, PostName) {
+        const req = new XMLHttpRequest();
+        req.open('POST', PostName);
+        req.setRequestHeader('Content-Type', 'application/json');
+
+        req.onload = function () {
+            if (req.status === 200) {
+
+            }
+        };
+
+        req.onerror = function () {
+
+        };
+
+        req.send(JSON.stringify(formData));
+    }
+
+
+
+
+    function removeYourItemFromCart(productId, PostName) {
+        const req = new XMLHttpRequest();
+        req.open('POST', PostName);
+        req.setRequestHeader('Content-Type', 'application/json');
+
+        req.onload = function () {
+            if (req.status === 200) {
+                const entryElement = document.getElementById(productId);
+                if (entryElement) {
+                    entryElement.remove(); // remove until restart
+                }
+            }
+        };
+
+        req.onerror = function () {
+
+        };
+
+        req.send(JSON.stringify({ productId: productId }));
+    }
+
+
+
+
+    // reset and remove all products from cart
+    document.addEventListener('DOMContentLoaded', function () {
+
+
+        resetCart.forEach((button) => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                totalSum = 0.00;
+                updateTotalSum(totalSum);
+                localStorage.setItem('totalSum', totalSum.toString());
+
+                PostName = '/remove-all';
+                routToPostNoForm(PostName);
+                //resetYourCart(PostName);
+            });
+        });
+
+
+
+        // reset the total sum
+        resetCart.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var totalSum = 0.00
+                const formData = {
+                    totalSum: totalSum
+                };
+
+                PostName = '/checkoutSumReset';
+                routToPostWithForm(formData, PostName);
+                //resetTheTotalSum(formData, PostName);
+            });
+        });
+
+
+
+
+        removeItemButtonCheckout.forEach((button) => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const entry = this.closest('.entry');
+                const productId = entry.dataset.productId;
+
+
+                PostName = '/remove-product-checkout';
+                removeYourItemFromCart(productId, PostName);
+
+
+
+                const price = parseFloat(this.dataset.price);
+                const quantity = parseInt(this.parentElement.querySelector('.quantity').textContent);
+
+                totalSum = quantity * price;
+                // totalSum += tempTotalSum;
+                // tempTotalSum = totalSum;
+                updateTotalSum(totalSum);
+
+                localStorage.setItem('totalSum', totalSum.toString());
+
+
+            });
+        });
+
+
+        removeItemButtonCheckout.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const price = parseFloat(this.dataset.price);
+                const quantity = parseInt(this.parentElement.querySelector('.quantity').textContent);
+
+                var totalSum = quantity * price;
+                const formData = {
+                    totalSum: totalSum
+                };
+                PostName = '/checkoutSumRemove';
+                //addYourCartSumDown(formData, PostName);
+                routToPostWithForm(formData, PostName);
+
+            });
+        });
+
+
+        // increase quantity
+        // increaseQuantityButton.forEach(button => {
+        //     button.addEventListener('click', function () {
+        //         const quantityElement = this.parentElement.querySelector('.quantity');
+
+        //         increaseQ(quantityElement);
+        //         localStorage.setItem('quantity', quantityElement.textContent);
+        //     });
+
+        // });
+
+
+
+
+
+
+
+
+
+
+
+        increaseQuantityButton.forEach(button => {
+            button.addEventListener('click', async function () {
+                const quantityElement = this.parentElement.querySelector('.quantity');
+                const title = this.dataset.title;
+
+                let quantity = parseInt(quantityElement.textContent);
+                quantity++;
+
+                quantityElement.textContent = quantity;
+
+                // const formData = {
+                //     title: title,
+                //     quantity: quantity
+                // };
+
+                // PostName = '/quantity';
+                // routToPostWithForm(formData, PostName);
+
+
+            });
+        });
+
+
+
+
+        decreaseQuantityButton.forEach(button => {
+            button.addEventListener('click', async function () {
+                const quantityElement = this.parentElement.querySelector('.quantity');
+                const title = this.dataset.title;
+
+                let quantity = parseInt(quantityElement.textContent);
+                if (quantity > 0) {
+                    quantity--;
+                    quantityElement.textContent = quantity;
+                }
+
+                // const formData = {
+                //     title: title,
+                //     quantity: quantity
+                // };
+
+                // PostName = '/quantity';
+                // routToPostWithForm(formData, PostName);
+
+
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // decrease quantity
+        // decreaseQuantityButton.forEach(button => {
+        //     button.addEventListener('click', function () {
+        //         const quantityElement = this.parentElement.querySelector('.quantity');
+
+        //         decreaseQ(quantityElement);
+        //         localStorage.setItem('quantity', quantityElement.textContent);
+
+        //     });
+
+        // });
+
+
+
+
+        addToCartButton.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+
+                const price = parseFloat(this.dataset.price);
+                const title = this.dataset.title;
+                const category = this.dataset.category;
+                const description = this.dataset.description;
+                const image = this.dataset.image;
+                // const quantity = parseInt(this.parentElement.querySelector('.quantity').textContent);
+
+                const quantityElement = this.parentElement.querySelector('.quantity');
+                let quantity = parseInt(quantityElement.textContent);
+
+                const paymentElement = this.parentElement.querySelector('.quantity');
+                let payment = parseInt(paymentElement.textContent);
+
+                payment = quantity * price;
+
+                const productId = this.parentElement.querySelector('.add-to-cart').getAttribute('data-product-id');
+
+                const formData = {
+                    title: title,
+                    category: category,
+                    image: image,
+                    description: description,
+                    price: price,
+                    quantity: quantity,
+                    payment: payment,
+                    productId: productId
+                };
+
+                PostName = '/checkoutCart';
+                routToPostWithForm(formData, PostName);
+                //addYourCart(formData, PostName);
+
+            });
+        });
+
+
+
+
+        // update up the total sum
+        addToCartButton.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const price = parseFloat(this.dataset.price);
+                const quantity = parseInt(this.parentElement.querySelector('.quantity').textContent);
+                const paymentElement = this.parentElement.querySelector('.payment');
+
+                totalSum = quantity * price;
+                const formData = {
+                    totalSum: totalSum
+                };
+
+                // totalSum += tempTotalSum;
+                // tempTotalSum = totalSum;
+                updateTotalSum(totalSum);
+                localStorage.setItem('totalSum', totalSum.toString());
+
+                PostName = '/checkoutSum';
+                routToPostWithForm(formData, PostName);
+
+                // update the total payment for the relevane product
+                let payment = totalSum;
+                paymentElement.textContent = 'Total: $' + payment;
+
+                localStorage.setItem('payment', paymentElement.toString());
+
+            });
+        });
+
+
+
+
+        // update down to total sum
+        removeItemButton.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const price = parseFloat(this.dataset.price);
+                const quantity = parseInt(this.parentElement.querySelector('.quantity').textContent);
+                const paymentElement = this.parentElement.querySelector('.payment');
+
+                totalSum = quantity * price;
+                const formData = {
+                    totalSum: totalSum
+                };
+
+
+                // totalSum -= 1;
+                // tempTotalSum = totalSum;
+                totalSum = Math.max(totalSum, 0); // make sure the total sum is not less than 0
+                updateTotalSum(totalSum);
+                localStorage.setItem('totalSum', totalSum.toString());
+
+
+                PostName = '/checkoutSumRemove';
+                routToPostWithForm(formData, PostName);
+
+                // update the total payment for the relevane product
+                let payment = totalSum;
+                paymentElement.textContent = 'Total: $' + payment.toFixed(2);
+                localStorage.setItem('payment', paymentElement.toString());
+            });
+        });
+
+
+    });
+
+
+
+</script>

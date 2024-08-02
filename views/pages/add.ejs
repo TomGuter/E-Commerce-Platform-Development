@@ -1,0 +1,101 @@
+<head>
+    <style>
+        #product-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-entry {
+            flex: 0 0 200px;
+            height: 200px;
+            border: 1px solid black;
+            margin: 10px;
+        }
+    </style>
+
+    <%- include('../common/head')%>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+
+<div class="container">
+    <h2 class="page-title">Add a product</h2>
+    <a href="/" class="btn btn-primary">Back to home page</a>
+    <br><br>
+
+    <form id="product-form" method="post" action="/products">
+
+        <div class="form-group">
+            <label for="">Title</label>
+            <input type="text" class="form-control" name="title" value="" placeholder="Title">
+        </div>
+
+        <div class="form-group">
+            <label for="">Product Category</label>
+            <input type="text" class="form-control" name="category" value="" placeholder="Category">
+
+
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Image URL</label>
+            <input type="text" class="form-control" name="image" value="" placeholder="image">
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Description</label>
+            <textarea name="description" class="form-control" cols="5" rows="5" placeholder="Content"></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" name="price" placeholder="Price">
+        </div>
+
+        <br>
+        <div class="form-group">
+            <div class="col-md-4">
+                <button id="singlebutton" name="singlebutton" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="product-container"></div>
+</div>
+
+<br><br><br>
+<footer>
+    <%- include('../common/footer')%>
+</footer>
+
+<script>
+
+    $(document).ready(function () {
+        $('#product-form').on('submit', function (event) {
+            event.preventDefault();
+
+            const formData = $(this).serialize();
+
+            $.ajax({
+                url: '/prod',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    alert('The product was uploded')
+                },
+                error: function (error) {
+                    console.error('Error adding product', error);
+
+                }
+            });
+        });
+    });
+
+
+
+</script>

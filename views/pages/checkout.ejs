@@ -1,0 +1,99 @@
+<head>
+    <%- include('../common/head')%>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+
+<body>
+    <header>
+        <%- include('../common/header', { links: navbar.links }) %>
+    </header>
+
+    <div class="container">
+        <div class="final">
+            <br>
+            <h5 style="display: inline-block;">Total sum to pay:</h5>
+            <h5 style="display: inline-block;"><%- include('../common/finalSumToPay')%></h5>
+        </div>
+    </div>
+    <br><br><br>
+
+    <products>
+        <div class="container">
+            <div class="inside">
+                <% products.forEach((product)=> { %>
+                    <br><br><br>
+                    <div class="entry" data-product-id="<%= product._id %>">
+
+
+                        <div class="product-info">
+                            <img class="product-image" src="<%= product.image %>" alt="Product Image">
+                            <div class="product-details">
+                                <h5 class="product-title">
+                                    <%= product.title %>
+                                </h5>
+                                <p class="product-category">Category: <%= product.category %>
+                                </p>
+                                <p class="product-p">quantity: <%= product.quantity %>
+                                </p>
+                                <p class="product-p">Price: $<%= product.price %>
+                                </p>
+                                <p class="product-price">Total: $<%= product.quantity * product.price%>
+                                </p>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary remove-checkout" role="button" data-price="<%= product.price %>"
+                            onclick="removeEntry(this)">Remove item from
+                            cart</a>
+                    </div>
+
+                    <% }); %>
+            </div>
+
+
+
+
+        </div>
+
+
+        <script>
+            function removeEntry(button) {
+
+                const entryElement = button.closest('.entry');
+                if (entryElement) {
+                    entryElement.style.display = 'none';
+                }
+                setTimeout(() => {
+                    window.location.reload();
+                }, 250);
+
+
+            }
+
+
+        </script>
+
+    </products>
+
+    <%- include('../common/payment') %>
+
+    <%- include('../common/cart-control')%>
+        <style>
+            .total-sum-container {
+                position: fixed;
+                top: 10px;
+                left: 44%;
+                opacity: 0.8;
+                max-width: 400px;
+                z-index: 9999;
+                display: none;
+            }
+        </style>
+
+        <footer>
+            <%- include('../common/footer')%>
+        </footer>
+</body>
+
+</html>

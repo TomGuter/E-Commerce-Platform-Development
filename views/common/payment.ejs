@@ -1,0 +1,61 @@
+<payment>
+    <div class="container">
+        <h1 class="text-center mt-5">Checkout Payment</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <% if(token==1){%>
+                    <form method="post" action="/users/confirmation" id="paymentForm">
+                        <%} else{%>
+                            <form method="get" action="/users/login" id="paymentForm">
+                                <% } %>
+                                    <br>
+                                    <div class=" all">
+                                        <% products.forEach((product)=> { %>
+                                            <br>
+                                            <div class="list" data-product-id="<%= product._id %>">
+                                                <h5>
+                                                    <% if(token==1){ %>
+                                                        <input type="text" class="d-none" name="prodQuantity"
+                                                            value="<%= product.quantity%>">
+                                                        <input type="text" class="d-none" name="prodTitle"
+                                                            value="<%= product.title%>">
+                                                        <input type="text" class="d-none" name="prodPrice" value="<%= product.quantity *
+                                    product.price %>">
+                                                        <% } %>
+                                                            <%= product.title %> X <%= product.quantity%>
+                                                </h5>
+                                                <div>
+                                                    <span class="payment" style="color:red;">Total: $<%=
+                                                            product.quantity * product.price%></span>
+
+                                                </div>
+                                                <% }); %>
+                                            </div>
+
+                                            <div class="container">
+                                                <br>
+                                                <h5>Total sum to pay:</h5>
+                                                <h5><%- include('../common/finalSumToPay')%></h5>
+                                            </div>
+
+                                            <% if(token==1){ %>
+                                                <a href="/finalStepToPay">
+                                                    <button type="button" id="submitBtn" class="btn btn-primary">Move to
+                                                        payment area</button>
+                                                </a>
+                                                <!-- <button type="submit" id="submitBtn" class="btn btn-primary">Click to
+                                                    pay</button> -->
+                                                <% }else{ %>
+                                                    <button type="submit" id="submitBtn" class="btn btn-primary">Log
+                                                        In</button>
+                                                    <% } %>
+
+                                    </div>
+                            </form>
+            </div>
+        </div>
+        <br><br>
+    </div>
+    <br><br>
+</payment>

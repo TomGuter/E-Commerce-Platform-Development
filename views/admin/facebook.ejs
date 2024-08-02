@@ -1,0 +1,68 @@
+
+<head>
+    <%- include('../common/head') %>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+
+<div class="container">
+    <h1 class="display-1">Your posts</h1>
+    <a class="btn btn-primary" href="/admin/facebook/create">Create a post </a>
+    <br>
+
+    <%if (message) {%>
+        <div id="popUp" class="col-3 alert alert-primary mt-2" role="alert">
+            <%=message%>
+        </div>
+    <% }%>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Content</th>
+                <th>Created At</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+    <% for (let index = 0; index < r.data.length; index++) {%>
+
+        <tr>
+                <td><%= index + 1 %></td>
+                <td class="text-break"><%= r.data[index].message %></td>
+                <td>
+                    <%= 
+                        new Date(r.data[index].created_time)
+                        .getDay().toString()
+                        + "/" + new Date(r.data[index].created_time)
+                        .getMonth().toString() + "/"
+                        + new Date(r.data[index].created_time)
+                        .getFullYear().toString() + " " +
+                        new Date(r.data[index].created_time).getHours().toString() + ":" +
+                        new Date(r.data[index].created_time).getMinutes().toString()
+                        %>
+                </td>
+                <td>
+
+                    <a href="/admin/facebook/update?id=<%=r.data[index].id%>" class="btn btn-primary m-1">update</a>
+                    <a href="/admin/facebook/delete?id=<%=r.data[index].id%>" class="btn btn-danger m-1">delete</a>
+
+                </td>
+        </tr>
+        
+    <% } %>
+</table>
+
+</div>
+
+<footer>
+    <%- include('../common/footer') %>
+</footer>
+
+<script src="/popUp.js">
+    
+</script>

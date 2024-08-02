@@ -1,0 +1,116 @@
+<head>
+    <style>
+        #product-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-entry {
+            flex: 0 0 200px;
+            height: 200px;
+            border: 1px solid black;
+            margin: 10px;
+        }
+    </style>
+
+    <%- include('../common/head')%>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+
+<div class="container">
+    <h2 class="page-title">Add a product</h2>
+    <a href="/admin" class="btn btn-primary">Back to admin page</a>
+    <br><br>
+
+    <form id="product-form" method="post" action="/prod">
+
+        <div class="form-group">
+            <label for="">Title</label>
+            <input type="text" class="form-control" name="title" value="" placeholder="Title">
+        </div>
+
+        <div class="form-group">
+            <label for="category">Product Category</label>
+            <select class="form-control" name="category" id="category" required>
+                <option value="" disabled selected>Select Category</option>
+                <option value="Candles">Candles</option>
+                <option value="Soaps">Soaps</option>
+                <option value="Fragrance">Fragrance</option>
+                <option value="Mixed">More Products (one category with mixed items)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">Brand</label>
+            <input type="text" class="form-control" name="brand" value="" placeholder="Brand" required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Image URL</label>
+            <input type="text" class="form-control" name="image" value="" placeholder="image" required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="">Description</label>
+            <textarea name="description" class="form-control" cols="5" rows="5" placeholder="Content"
+                required></textarea>
+        </div>
+
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" name="price" placeholder="Price" required>
+        </div>
+
+        <br>
+        <div class="form-group">
+            <div class="col-md-4">
+                <button id="singlebutton" name="singlebutton" class="btn btn-primary" required>Add</button>
+            </div>
+        </div>
+    </form>
+
+    <div id="product-container"></div>
+</div>
+
+<br><br><br>
+<footer>
+    <%- include('../common/footer')%>
+</footer>
+
+<script>
+
+    $(document).ready(function () {
+        $('#product-form').on('submit', function (event) {
+            event.preventDefault();
+
+            const formData = $(this).serialize(); // take the form data
+
+            $.ajax({
+                url: '/prod',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    alert('The product was uploded');
+
+                },
+                error: function (error) {
+                    console.error('error with adding product', error);
+
+                }
+            });
+            alert('The product was uploded');
+            window.location.reload();
+
+        });
+
+    });
+
+
+
+</script>

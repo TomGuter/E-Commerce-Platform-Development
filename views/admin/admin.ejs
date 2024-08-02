@@ -1,0 +1,38 @@
+<head>
+    <%- include('../common/head') %>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+
+<div class="container">
+    <br><br>
+    <h2 class="display-1">This is the admin area</h2>
+
+
+    <a class="add btn btn-primary" href="/admin/add-product">
+        Add a new product</a>
+    <br>
+    <a class="remove btn btn-primary mt-2" href="/admin/delete-product">
+        Remove from website</a>
+    <br>
+    <a class="remove btn btn-primary mt-2" href="./admin/watch-requstes">
+        Watch requests from clients</a>
+    <br>
+    <a class=" btn btn-primary mt-2" href="/admin/facebook">
+            Facebook pages</a>
+    <br>
+    <a class=" btn btn-danger mt-2" href="/admin/statistics">
+        Statistics by orders
+        </a>
+        <br>
+    <a class=" btn btn-danger mt-2" href="/admin/statistics2">
+        Statistics by Masseges</a>
+</div>
+
+<footer>
+    <%- include('../common/footer') %>
+</footer>

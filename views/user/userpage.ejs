@@ -1,0 +1,58 @@
+<head>
+  <%- include('../common/head') %>
+
+    <%- include('../common/homestyle') %>
+</head>
+
+<body>
+  <header>
+    <%- include('../common/header', { links: navbar.links }) %>
+  </header>
+
+  <h1>Hello <%- user.name %></h1>
+
+  <% for (let i=0; i < user.numOfOrders; i++) {%>
+
+    <h3>Order Number: <%= i+1 %>
+    </h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Product Title</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Overall Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let j=0; j < user.order.length; j++) {%>
+
+          <% if (user.order[j].orderNo===i+1) {%>
+
+            <tr>
+              <th scope="row">1</th>
+              <td>
+                <%= user.order[j].product %>
+              </td>
+              <td>
+                <%= user.order[j].quantity %>
+              </td>
+              <td>
+                <%= user.order[j].price %>
+              </td>
+            </tr>
+
+            <% } %>
+
+              <% } %>
+      </tbody>
+    </table>
+    <%} %>
+
+      <br><br>
+
+      <footer>
+        <%- include('../common/footer') %>
+      </footer>
+</body>

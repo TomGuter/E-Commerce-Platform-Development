@@ -1,0 +1,19 @@
+<head>
+    <%- include('../common/head') %>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+<h1 class="display-1">Update post</h1>
+<form class="col-5" action="/admin/facebook/update?id=<%= r.id %>" method="POST">
+    <label class="form-label" for="message">Post content:</label>
+    <input class="form-control" value="<%= r.message %>" type="text" name="message">
+    <input class="btn btn-primary mt-2" type="submit">
+</form>
+
+<footer>
+    <%- include('../common/footer') %>
+</footer>

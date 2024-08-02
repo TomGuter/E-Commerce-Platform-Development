@@ -1,0 +1,287 @@
+<!-- this file should read the values from the data.json file into li in loop (add a new product to the page after the admin mode) -->
+<br>
+
+
+<div class="container">
+    <div class="container3">
+        <div class="container2">
+
+
+            <div class="container">
+                <div class="search-container">
+                    <%- include('search')%>
+                </div>
+            </div>
+
+
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto2">
+                        <li class="nav-item2">
+                            <a class="nav-link2" href="#" data-category="All"><span class="categories">All</span></a>
+                        </li>
+                        <li class="nav-item2">
+                            <a class="nav-link2" href="#" data-category="Candles"><span
+                                    class="categories">Candles</span></a>
+                            <select class="brand-selector">
+                                <option value="All" disabled selected>Brands List</option>
+                                <option value="TOM FORD_C">TOM FORD</option>
+                                <option value="JO MALONE_C">JO MALONE</option>
+                            </select>
+                        </li>
+                        <li class="nav-item2">
+                            <a class="nav-link2" href="#" data-category="Soaps"><span
+                                    class="categories">Soaps</span></a>
+                            <select class="brand-selector">
+                                <option value="All" disabled selected>Brands List</option>
+                                <option value="TOM FORD_S">TOM FORD</option>
+                                <option value="JO MALONE_S">JO MALONE</option>
+                            </select>
+                        </li>
+                        <li class="nav-item2">
+                            <a class="nav-link2" href="#" data-category="Fragrance"><span
+                                    class="categories">Fragrance</span></a>
+                            <select class="brand-selector">
+                                <option value="All" disabled selected>Brands List</option>
+                                <option value="TOM FORD_F">TOM FORD</option>
+                                <option value="JO MALONE_F">JO MALONE</option>
+                            </select>
+                        </li>
+                        <li class="nav-item2">
+                            <a class="nav-link2" href="#" data-category="Mixed"><span
+                                    class="categories">Other</span></a>
+                            <select class="brand-selector">
+                                <option value="All" disabled selected>Brands List</option>
+                                <option value="Mixed Items">Mixed Items</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="price-range-selector row">
+                    <div class="col">
+                        <label for="price-input-min" class="under">Set a minimum price</label>
+                        <input type="number" class="form-control price-input-min" placeholder="Set a minimum price">
+                    </div>
+                    <div class="col">
+                        <label for="price-input-max" class="under">Set a maximum price</label>
+                        <input type="number" class="form-control price-input-max" placeholder="Set a maximum price">
+                    </div>
+                    <div id="price-range-select">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+        <br>
+        <br><br>
+        <div class="container4">
+            <div class="inside">
+                <% products.forEach((product)=> { %>
+                    <div class="entry" data-product-id="<%= product._id %>">
+                        <div class="product-info">
+
+                            <img class="product-image" src="<%= product.image %>" alt="Product Image">
+                            <div class="product-details">
+                                <h5 class="product-title">
+                                    <%= product.title %>
+                                </h5>
+                                <p class="product-category">Category: <%= product.category %>
+                                </p>
+                                <p class="product-brand">Brand: <%= product.brand %>
+                                </p>
+
+                                <button class="btn btn-primary description"
+                                    title="<%= product.description %>">Description
+                                </button>
+
+                                <p class="product-price">Price: $<%= product.price %>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="product-control">
+                            <button class="btn btn-primary decrease-quantity" data-product-id="<%= product._id %>"
+                                data-title="<%= product.title %>" data-category="<%= product.category %>"
+                                data-description="<%= product.description %>" data-image="<%= product.image %>"
+                                data-quantity="<%= product.quantity %>" data-price="<%= product.price %>">-</button>
+
+                            <span class="quantity">
+                                <%= product.quantity %>
+                            </span>
+
+                            <button class="btn btn-primary increase-quantity" data-product-id="<%= product._id %>"
+                                data-title="<%= product.title %>" data-category="<%= product.category %>"
+                                data-description="<%= product.description %>" data-image="<%= product.image %>"
+                                data-quantity="<%= product.quantity %>" data-price="<%= product.price %>">+</button>
+
+                            <span class="payment" data-product-id="<%= product._id %>" data-title="<%= product.title %>"
+                                data-category="<%= product.category %>" data-description="<%= product.description %>"
+                                data-image="<%= product.image %>" data-quantity="<%= product.quantity %>"
+                                data-price="<%= product.price %>">Total: $<%= product.payment %>
+                            </span>
+
+
+                        </div>
+
+
+                        <a class="btn btn-primary add-to-cart" href="/" role="button"
+                            data-product-id="<%= product._id %>" data-title="<%= product.title %>"
+                            data-category="<%= product.category %>" data-description="<%= product.description %>"
+                            data-image="<%= product.image %>" data-price="<%= product.price %>"
+                            data-payment="<%= product.payment %>">Add to cart</a>
+
+                    </div>
+                    <% }); %>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<%- include('cart-sum')%>
+    <%- include('cart-control')%>
+
+
+
+
+
+        <script>
+
+            const priceInputMin = document.querySelector('.price-input-min');
+            const priceInputMax = document.querySelector('.price-input-max');
+
+
+            function filterCategory() {
+                const categoryOption = document.querySelectorAll('.nav-link2');
+                const productEntries = document.querySelectorAll('.entry');
+                const priceRange = document.getElementById('price-range-select');
+                const brandsOption = document.querySelectorAll('.brand-selector');
+
+                categoryOption.forEach((entry) => {  // filter the categories for each click
+                    entry.addEventListener('click', (event) => {
+                        event.preventDefault();
+
+                        priceInputMin.value = ''; // to reaser the values of the typed numbers
+                        priceInputMax.value = ''; // to reaser the values of the typed numbers
+
+                        const selectedCategory = entry.getAttribute('data-category');
+
+                        productEntries.forEach((entry) => {
+                            entry.style.display = 'block';
+                            const category = entry.querySelector('.product-category').innerText.split(': ')[1]; // take the second key without the ': '
+
+                            if (selectedCategory === 'All' || selectedCategory === category) {
+                                entry.style.display = 'block';
+                            }
+                            else {
+                                entry.style.display = 'none';
+                            }
+                        });
+
+                        priceRange.value = '0'; // set price range selector back to 'All'
+
+                        brandsOption.forEach((selector) => { // to set the brand selector back to All Brands
+                            selector.value = 'All';
+                        });
+                    });
+                });
+
+            }
+
+            function brandsFilter() {
+
+                const productEntries = document.querySelectorAll('.entry');
+                const brandsOption = document.querySelectorAll('.brand-selector');
+
+                brandsOption.forEach((selector) => {
+                    selector.addEventListener('change', () => {
+
+                        priceInputMin.value = ''; // to reaser the values of the typed numbers
+                        priceInputMax.value = ''; // to reaser the values of the typed numbers
+
+                        const selectedBrand = selector.value;
+
+                        productEntries.forEach((entry) => {
+                            entry.style.display = 'block';
+                            const brand = entry.querySelector('.product-brand').innerText.split(': ')[1]; // get the brand value in the second key
+
+                            if (selectedBrand !== 'All' && selectedBrand !== brand) {
+                                entry.style.display = 'none'; // the the nunwanted brands-products
+                            }
+                        });
+                    });
+                });
+            }
+
+            function filterByPriceRange() { // filter function by min and max price and a price range
+                const typedPriceMin = parseFloat(document.querySelector('.price-input-min').value); // to convert the string into a floating number
+                const typedPriceMax = parseFloat(document.querySelector('.price-input-max').value);
+                const productEntries = document.querySelectorAll('.entry');
+
+                productEntries.forEach((entry) => {
+                    const price = parseFloat(entry.querySelector('.product-price').innerText.split('$')[1]); // to take to second key
+
+                    if (
+                        (isNaN(typedPriceMin) || price >= typedPriceMin) && // show all the price between the min price and max price
+                        (isNaN(typedPriceMax) || price <= typedPriceMax)
+                    ) {
+                        entry.style.display = 'block';
+                    }
+                    else {
+                        entry.style.display = 'none';
+                    }
+                });
+            }
+
+
+
+
+
+
+
+            function searchFilter() {
+
+                const searchInput = document.getElementById('autocomplete'); // the searchQuery remebers the search hisotry
+                const searchButton = document.querySelector('.search-btn');
+                const productEntries = document.querySelectorAll('.entry');
+
+                searchButton.addEventListener('click', () => {
+                    const search = searchInput.value.toUpperCase().trim(); // to remove spaces
+
+                    productEntries.forEach((entry) => {
+                        const productTitle = entry.querySelector('.product-title').textContent.toUpperCase().trim(); // to remove spaces
+
+                        if (productTitle.includes(search)) { // if any characters from the search ore contained in the productTitle
+                            entry.style.display = 'block';
+                        }
+                        else {
+                            entry.style.display = 'none'; // don't show the unwanted entries
+                        }
+                    });
+                });
+
+            }
+            //  filterByPriceRange();
+            priceInputMin.addEventListener('input', filterByPriceRange);
+            priceInputMax.addEventListener('input', filterByPriceRange);
+            brandsFilter();
+            searchFilter(); // the function to find the search input
+            filterCategory(); //  the function to filter the categores
+
+
+        </script>

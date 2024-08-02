@@ -1,0 +1,89 @@
+<head>
+    <%- include('../common/head') %>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+
+<body>
+    <br>
+    <h2>Follow client requests</h2>
+    <br>
+    <div class="container">
+        <div class="inside2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% contact.forEach((m)=> { %>
+                        <tr>
+
+                            <td>
+                                <%= m.name %>
+                            </td>
+
+                            <td>
+                                <%= m.email %>
+                            </td>
+
+                            <td>
+                                <%= m.date.toDateString() %>
+                            </td>
+                            <td>
+                                <%= m.message %>
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger delete-btn"
+                                    data-id="<%= m._id %>">Delete</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+</body>
+
+
+
+
+<footer>
+    <%- include('../common/footer') %>
+</footer>
+
+
+<script>
+    $(document).ready(function () {
+        $('.delete-btn').on('click', function () {
+            var messageId = $(this).data('id');
+            var request = $(this).closest('tr');
+
+            $.ajax({
+                url: '/delete-message',
+                type: 'POST',
+                data: { messageId: messageId },
+                success: function (response) {
+                    if (response.success) {
+
+                        request.remove();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('error: ', error);
+                }
+            });
+        });
+    });
+
+</script>

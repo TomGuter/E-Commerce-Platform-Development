@@ -1,0 +1,90 @@
+<head>
+    <%- include('../common/head') %>
+
+        <%- include('../common/homestyle') %>
+</head>
+
+<header>
+    <%- include('../common/header', { links: navbar.links }) %>
+</header>
+
+<body>
+
+    <main>
+
+    </main>
+    <div class="container">
+        <br>
+    </div>
+    <products>
+        <div class="container">
+            <div class="inside">
+                <% products.forEach((product)=> { %>
+                    <div class="entry" data-product-id="<%= product._id %>">
+                        <h5>Name: <%= product.title %>
+                        </h5>
+                        <p>Category: <%= product.category %>
+                        </p>
+                        <p>Description: <%= product.description %>
+                        </p>
+                        <p>Price: $<%= product.price %>
+                        </p>
+                        <img src="<%= product.image %>" alt="Product Image" style="width: 100px; height: 100px;">
+                        <br><br>
+                        <a class="btn btn-primary remove-item" href="/" role="button"
+                            data-price="<%= product.price %>">Remove From Database</a>
+                    </div>
+                    <% }); %>
+            </div>
+        </div>
+
+
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const removeItemButtons = document.querySelectorAll('.remove-item');
+
+                removeItemButtons.forEach((button) => {
+                    button.addEventListener('click', function (event) {
+                        event.preventDefault();
+
+                        const entryElement = this.closest('.entry');
+                        const productId = entryElement.dataset.productId;
+
+                        fetch('/remove-product', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ productId: productId })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+
+                                entryElement.remove();
+                            })
+                            .catch(error => {
+
+                            });
+
+                        entryElement.remove();
+                    });
+
+                });
+
+            });
+
+        </script>
+
+    </products>
+    <br><br><br>
+
+
+
+    <footer>
+        <%- include('../common/footer') %>
+    </footer>
+</body>
+
+</html>

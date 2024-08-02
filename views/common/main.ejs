@@ -1,0 +1,18 @@
+<!-- contains button checkout and login -->
+
+<main class="top-btn">
+    <% if(user==0){ %>
+        &nbsp&nbsp&nbsp<a class="btn btn-primary" href="/users/login" role="button">Login</a>
+        <a class="btn btn-primary" href="/users/signin" role="button">Sign Up</a>
+        <div class="inside"></div>
+        <br><br>
+        <%} else if(token === 2){ %>
+            <h1 class="display-4">Hello <%- user.name %></h1>
+            <a class="btn btn-primary" href="/admin" role="button">Admin Page</a>
+            <a class="btn btn-primary" href="/users/logout" role="button">Log Out</a>
+        <% } else{%>
+            <h1 class="display-4">Hello <%- user.name %></h1>
+            <a class="btn btn-primary" href="/users" role="button">Your Orders</a>
+            <a class="btn btn-primary" href="/users/logout" role="button">Log Out</a>
+            <% } %>
+</main>

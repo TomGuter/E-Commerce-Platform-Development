@@ -1,0 +1,19 @@
+<div class="sum-all">
+    <% var totalSum=0; %>
+        <div class="sum-none">
+            <% products.forEach((product)=> { %>
+                <br>
+                <div class="sum-none-inside" data-product-id="<%= product._id %>">
+                    <script>
+                        <!-- <% totalSum=0; %>
+                        <% products.forEach((product)=> { %>
+                            <% totalSum +=(product.price) * (product.quantity); %>
+                                <% }); %> -->
+                    </script>
+                </div>
+                <% }); %>
+        </div>
+        <div class="total">
+            $<%= totalSum %>
+        </div>
+</div>

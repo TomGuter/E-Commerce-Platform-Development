@@ -1,0 +1,151 @@
+<%- include('../common/homestyle') %>
+
+    <head>
+        <%- include('../common/head')%>
+    </head>
+
+    <body>
+        <header>
+            <%- include('../common/header', { links: navbar.links }) %>
+                <%- include('../common/cart-sum')%>
+        </header>
+
+        <body>
+            <div class="final-step">
+                <h3 class="details">Enter your details and complete your order</h3>
+                <br>
+                <payment>
+                    <% if(token==1){%>
+                        <form method="post" class="pay" action="/users/confirmation" id="paymentForm2">
+                            <%} else{%>
+                                <form method="get" action="/users/login" id="paymentForm">
+                                    <% } %>
+
+
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input name="name" type="text" class="form-control" id="name"
+                                                placeholder="Enter your name" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="mail">Your Email</label>
+                                            <input name="mail" type="email" class="form-control" id="email"
+                                                placeholder="Enter your email" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="sum">Sum</label>
+                                            <span id="sum" class="form-control" readonly><%-
+                                                    include('../common/finalSumToPay')%></span>
+                                            <% var totalSum=0; %>
+                                                <div class="sum-none">
+                                                    <% products.forEach((product)=> { %>
+                                                        <br>
+                                                        <div class="sum-none-inside"
+                                                            data-product-id="<%= product._id %>">
+                                                            <script>
+                                                                <!-- <% totalSum=0; %>
+                                                                <% products.forEach((product)=> { %>
+                                                                    <% totalSum +=(product.price) * (product.quantity); %>
+                                                                        <% }); %> -->
+                                                            </script>
+                                                        </div>
+                                                        <% }); %>
+                                                </div>
+                                                <input type="hidden" name="totalSum" value="<%= totalSum %>">
+
+                                        </div>
+
+
+
+                                        <br>
+                                        <div class=" all">
+                                            <% products.forEach((product)=> { %>
+                                                <br>
+                                                <div class="list" data-product-id="<%= product._id %>">
+                                                    <h5>
+                                                        <% if(token==1){ %>
+                                                            <input type="text" class="d-none" name="prodQuantity"
+                                                                value="<%= product.quantity%>">
+                                                            <input type="text" class="d-none" name="prodTitle"
+                                                                value="<%= product.title%>">
+                                                            <input type="text" class="d-none" name="prodPrice" value="<%= product.quantity *
+                                        product.price %>">
+                                                            <% } %>
+                                                                <%= product.title %> X <%= product.quantity%>
+                                                    </h5>
+                                                    <div>
+                                                        <span class="payment" style="color:red;">Total: $<%=
+                                                                product.quantity * product.price%></span>
+
+                                                    </div>
+                                                    <% }); %>
+                                                </div>
+
+                                                <div class="container">
+                                                    <br>
+                                                    <h5>Total sum to pay:</h5>
+                                                    <h5 id="sumall"><%- include('../common/finalSumToPay')%></h5>
+                                                </div>
+
+                                                <% if(token==1){ %>
+                                                    <button type="submit" id="submitBtn" class="btn btn-primary">Click
+                                                        to pay</button>
+                                                    <% }else{ %>
+                                                        <button type="submit" id="submitBtn" class="btn btn-primary">Log
+                                                            In</button>
+                                                        <% } %>
+
+                                        </div>
+                                </form>
+                                
+                </payment>
+                <br><br><br><br>
+        </body>
+        <h5 id="currency">Other currency:</h5>
+        <br>
+        <button id="USD" class="btn btn-primary">USD</button>
+        <button id="ILS" class="btn btn-danger">ILS</button>
+        <button id="EUR" class="btn btn-warning">EUR</button>
+        <footer>
+            <%- include('../common/footer')%>
+        </footer>
+        <% var sum = include('../common/finalSumToPay') %>
+        <script>
+            $(document).ready(function () {
+                sum = $(sum).children().children()[1].innerHTML;
+                $('#USD').on('click',function (e) { 
+                    e.preventDefault();
+                    $.ajax({
+                        url:'https://api.currencyapi.com/v3/latest?apikey=cur_live_hfiyXKLFzuZkGuEAMnvrqNxUPxS95T6shK4relna',
+                        dataType:'Json'
+                    }).done(function (e) {
+                        sum = sum.replace("$","")
+                        $("#currency").text(sum + "$"); 
+                     })
+                 })
+                 $('#ILS').on('click',function (e) { 
+                    e.preventDefault();
+                    $.ajax({
+                        url:'https://api.currencyapi.com/v3/latest?apikey=cur_live_hfiyXKLFzuZkGuEAMnvrqNxUPxS95T6shK4relna',
+                        dataType:'Json'
+                    }).done(function (e) {
+                        const curr = e.data.ILS.value
+                        sum = sum.replace("$","");
+                        $("#currency").text(Math.floor(sum * curr) + " ILS");
+                     })
+                 })
+                 $('#EUR').on('click',function (e) { 
+                    e.preventDefault();
+                    $.ajax({
+                        url:'https://api.currencyapi.com/v3/latest?apikey=cur_live_hfiyXKLFzuZkGuEAMnvrqNxUPxS95T6shK4relna',
+                        dataType:'Json'
+                    }).done(function (e) {
+                        const curr = e.data.EUR.value
+                        sum = sum.replace("$","");
+                        $("#currency").text(Math.floor(sum * curr) + `\xA3`);
+                     })
+                 })
+             })
+        </script>
