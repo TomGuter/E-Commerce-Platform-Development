@@ -9,7 +9,6 @@
 5. **Admin Panel:** A dedicated interface for admins to manage products, including adding, updating, and removing items.
 
 ## Getting Started
-
 To get the project up and running on your local machine, follow these steps:
 
 1. **Download and Setup:**
