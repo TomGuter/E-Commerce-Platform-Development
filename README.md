@@ -5,7 +5,7 @@
 1. **User Registration and Login:** Secure user authentication system allowing users to create accounts and log in.
 2. **Product Listing and Details:** Display a catalog of products with detailed information for each item.
 3. **Shopping Cart Functionality:** Users can add products to their shopping cart, modify quantities, and proceed to checkout.
-4. **Order Management:** Admins can manage and view orders placed by users, including order statuses.
+4. **Order Management:** Admins can manage and view orders placed by users.
 5. **Admin Panel:** A dedicated interface for admins to manage products, including adding, updating, and removing items.
 
 ## Getting Started
